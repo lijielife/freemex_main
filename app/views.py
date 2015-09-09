@@ -6,15 +6,22 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from app import models
 
+import datetime
 from googlefinance import getQuotes
 # Create your views here.
 
+updateTime = datetime.datetime.now()
+val = False
+
 def updatePrices():
     for i in models.Stock.objects.all():
-        i.price=float(getQuotes(i.code)[0]["LastTradePrice"])
+        i.price=float(getQuotes(i.code)[0]["LastTradePrice"].replace(',',''))
         i.save()
 
 def index(request):
+    global updateTime
+    if updateTime == None:
+        updateTime = datetime.datetime.now()
     user=request.user
     if user.is_authenticated():
         return HttpResponseRedirect('/portfolio')
@@ -27,13 +34,31 @@ def portfolio(request):
 
 @login_required
 def marketwatch(request):
-    updatePrices()
+    global updateTime,val
+    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+        updateTime=datetime.datetime.now()
+        updatePrices()
+        val = True
     stocks = models.Stock.objects.all()
     return render(request,'marketwatch.html', { 'stocks': stocks })
 
 @login_required
 def ranking(request):
-    return
+    global updateTime,val
+    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+        updateTime=datetime.datetime.now()
+        updatePrices()
+        val = True
+    players = models.Player.objects.all()
+    if val :
+        val = False
+        print ("here")
+        for p in players:
+            p.value_in_stocks=0
+            for j in models.PlayerToStock.objects.filter(player=p):
+                p.value_in_stocks += j.stock.price
+            p.save()
+    return render(request,'rankings.html',{'players':players})
 
 @login_required
 def stock(request,param):
