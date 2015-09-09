@@ -16,3 +16,12 @@ def index(request):
 
 def dashboard(request):
     return
+
+def save_profile(backend, user, response, *args, **kwargs):
+    if backend.name == 'facebook':
+        profile = user
+        player = models.Player.objects.get(user=profile)
+        if player == None:
+            player=models.Player()
+            player.name = response.get('name')
+            player.save()
