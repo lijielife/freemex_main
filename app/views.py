@@ -11,17 +11,31 @@ from app import models
 def index(request):
     user=request.user
     if user.is_authenticated():
-        return dashboard(request)
+        return HttpResponseRedirect('/portfolio')
     return render(request, 'index_page.html', {})
 
-def dashboard(request):
-    return
+def portfolio(request):
+    player = models.Player.objects.get(user_id=request.user.pk)
+    print (player.name)
+    return render(request, 'portfolio.html' , {'player': player})
 
 def save_profile(backend, user, response, *args, **kwargs):
     if backend.name == 'facebook':
         profile = user
-        player = models.Player.objects.get(user=profile)
-        if player == None:
-            player=models.Player()
+        try:
+            player = models.Player.objects.get(user=profile)
+        except:
+            player = models.Player(user=profile)
+            player.email = user.email
             player.name = response.get('name')
+            player.save()
+
+    elif backend.name == 'google-oauth2':
+        profile = user
+        try:
+            player = models.Player.objects.get(user=profile)
+        except:
+            player = models.Player(user=profile)
+            player.email = user.email
+            player.name = response.get('name')['givenName'] + " " + response.get('name')['familyName']
             player.save()

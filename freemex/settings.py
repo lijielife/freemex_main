@@ -132,6 +132,9 @@ LOGIN_URL='/vendor/login'
 SOCIAL_AUTH_FACEBOOK_KEY = 378079305720472
 SOCIAL_AUTH_FACEBOOK_SECRET = "c66053e1f77f02faf13df03be54ea856"
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "543069976498-gm2qfpgv2l8jgh467b92r8kvn58clqmv.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "P-0SKWcUnfhWLT2unUhC5pnX"
+
 SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.social_details',
     'social.pipeline.social_auth.social_uid',
