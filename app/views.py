@@ -6,7 +6,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from app import models
 
+from googlefinance import getQuotes
 # Create your views here.
+
+def updatePrices():
+    for i in models.Stock.objects.all():
+        i.price=float(getQuotes(i.code)[0]["LastTradePrice"])
+        i.save()
 
 def index(request):
     user=request.user
@@ -14,10 +20,27 @@ def index(request):
         return HttpResponseRedirect('/portfolio')
     return render(request, 'index_page.html', {})
 
+@login_required
 def portfolio(request):
     player = models.Player.objects.get(user_id=request.user.pk)
-    print (player.name)
-    return render(request, 'portfolio.html' , {'player': player})
+    return render(request, 'portfolio.html' , {'player': player })
+
+@login_required
+def marketwatch(request):
+    updatePrices()
+    stocks = models.Stock.objects.all()
+    return render(request,'marketwatch.html', { 'stocks': stocks })
+
+@login_required
+def ranking(request):
+    return
+
+@login_required
+def stock(request,param):
+    return
+
+def rules(request):
+    return render(request,'rules.html',{})
 
 def save_profile(backend, user, response, *args, **kwargs):
     if backend.name == 'facebook':

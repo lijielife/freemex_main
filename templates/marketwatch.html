@@ -5,10 +5,9 @@
     <title></title>
 </head>
 <body>
- {{ player.name }}
- {{ player.cash }}
-
- {{ player.value_in_stocks }}
- {{ player.email }}
+{% for i in stocks %}
+{{ i.price }}
+{{ i.name }} <br>
+{% endfor %}
 </body>
 </html>

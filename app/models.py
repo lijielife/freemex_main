@@ -11,8 +11,8 @@ class Player(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255,default="")
-    cash = models.IntegerField(default=500000)
-    value_in_stocks = models.IntegerField(default=0)
+    cash = models.FloatField(default=500000)
+    value_in_stocks = models.FloatField(default=0)
 
 class Stock(models.Model):
     class Meta(object):
@@ -20,7 +20,7 @@ class Stock(models.Model):
 
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=20)
-    price = models.IntegerField()
+    price = models.FloatField()
 
 class PlayerToStock(models.Model):
     class Meta(object):
@@ -29,7 +29,7 @@ class PlayerToStock(models.Model):
     player = models.ForeignKey(Player)
     stock = models.ForeignKey(Stock)
     quantity = models.IntegerField(default=0)
-    price_bought_at = models.IntegerField()
+    price_bought_at = models.FloatField()
     
 admin.site.register(Player)
 admin.site.register(Stock)
