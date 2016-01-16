@@ -1,0 +1,30 @@
+#background-texture {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -99;
+    background: url('../images/dot.png');
+    opacity: 0.3;
+}
+#background-image {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -100;
+    background: url('../images/mainbg.jpg') no-repeat transparent;
+    background-size: cover;
+    opacity: 1;
+    background-position: 0 20%;
+}
+
+#mainHeader {
+    color: #3a3a3a;
+    font-size: 9vw;
+    padding-top: 1em;
+    text-align: center;
+    text-shadow: 0 0 7px #6a6a6a;
+}
