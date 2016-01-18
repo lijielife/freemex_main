@@ -1,0 +1,106 @@
+[
+{
+    "fields": {
+        "price": 0,
+        "code": "GOOG",
+        "name": "Alphabet Inc Class C"
+    },
+    "model": "app.stock",
+    "pk": 1
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "AAPL",
+        "name": "Apple Inc."
+    },
+    "model": "app.stock",
+    "pk": 2
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "FB",
+        "name": "Facebook, Inc."
+    },
+    "model": "app.stock",
+    "pk": 3
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "ORCL",
+        "name": "Oracle Corporation"
+    },
+    "model": "app.stock",
+    "pk": 4
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "IBM",
+        "name": "International Business Machines Corporation"
+    },
+    "model": "app.stock",
+    "pk": 5
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "QCOM",
+        "name": "QUALCOMM Incorporated"
+    },
+    "model": "app.stock",
+    "pk": 6
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "ADBE",
+        "name": "Adobe Systems Incorporated"
+    },
+    "model": "app.stock",
+    "pk": 7
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "INFY",
+        "name": "Infosys Limited"
+    },
+    "model": "app.stock",
+    "pk": 8
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "CTSH",
+        "name": "Cognizant Technology Solutions Corporation"
+    },
+    "model": "app.stock",
+    "pk": 9
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "YHOO",
+        "name": "Yahoo! Inc."
+    },
+    "model": "app.stock",
+    "pk": 10
+}
+
+
+]

@@ -13,6 +13,8 @@ class Player(models.Model):
     email = models.CharField(max_length=255,default="")
     cash = models.FloatField(default=500000)
     value_in_stocks = models.FloatField(default=0)
+    def __str__(self):
+        return self.user.username
 
 class Stock(models.Model):
     class Meta(object):
@@ -21,6 +23,8 @@ class Stock(models.Model):
     name = models.CharField(max_length=255)
     code = models.CharField(max_length=20)
     price = models.FloatField()
+    def __str__(self):
+        return str(self.code)
 
 class PlayerToStock(models.Model):
     class Meta(object):
