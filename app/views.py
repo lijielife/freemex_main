@@ -14,8 +14,9 @@ updateTime = datetime.datetime.now()
 val = False
 
 def updatePrices():
+    print "======= updating prices =========="
     for i in models.Stock.objects.all():
-        i.price=float(getQuotes(i.code)[0]["LastTradePrice"].replace(',',''))
+        i.price=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
         i.save()
 
 def index(request):
