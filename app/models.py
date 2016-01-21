@@ -21,7 +21,7 @@ class Stock(models.Model):
         db_table = 'stock'
 
     name = models.CharField(max_length=255)
-    code = models.CharField(max_length=20)
+    code = models.CharField(max_length=20, db_index=True)
     price = models.FloatField()
     def __str__(self):
         return str(self.code)
@@ -33,7 +33,7 @@ class PlayerToStock(models.Model):
     player = models.ForeignKey(Player)
     stock = models.ForeignKey(Stock)
     quantity = models.IntegerField(default=0)
-    price_bought_at = models.FloatField()
+    #price_bought_at = models.FloatField()
     
 admin.site.register(Player)
 admin.site.register(Stock)

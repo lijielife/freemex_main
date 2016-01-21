@@ -44,6 +44,55 @@ def marketwatch(request):
     return render(request,'marketwatch.html', { 'stocks': stocks })
 
 @login_required
+def buyStock(request):
+    global updateTime,val
+    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+        updateTime=datetime.datetime.now()
+        updatePrices()
+        val = True
+    if request.method == 'POST':
+        print request.POST
+        requestedStockCode = request.POST['stock_code']
+        requestedStockCount = float(request.POST['number_of_stocks'])
+        stockList = models.Stock.objects.filter(code = str(requestedStockCode))
+        playerObj = models.Player.objects.get(user_id=request.user.pk)
+        availableMoney = float(playerObj.cash)
+        if(stockList.count()):
+            stockObj = stockList[0]
+            stockPrice = stockObj.price
+            print stockPrice
+            print requestedStockCount
+            if(availableMoney > (stockPrice * requestedStockCount)):
+                print "BOUGHT"
+                #update player to stock table
+                p2sList = models.PlayerToStock.objects.filter(player = playerObj, stock = stockObj)
+                if(p2sList.count()):
+                    p2s = p2sList[0]
+                    p2s.quantity = p2s.quantity + requestedStockCount
+                    p2s.save()
+                    print "UPDATED"
+                    messages.success(request, 'Stock purchased successfully.')
+                else:
+                    p2s = models.PlayerToStock()
+                    p2s.player = playerObj
+                    p2s.stock = stockObj
+                    p2s.quantity = requestedStockCount
+                    p2s.save()
+                    print "UPDATED"
+                    messages.success(request, 'Stock purchased successfully.')
+                #deduct player money
+                newAvailableMoney = availableMoney - (stockPrice * requestedStockCount)
+                playerObj.cash = newAvailableMoney
+                playerObj.save()
+                print "CASH DEDUCTED"
+            else:
+                messages.error(request, 'Not enough cash to buy stock')
+        else:
+            messages.error(request, 'Something went wrong')
+
+    stocks = models.Stock.objects.all()
+    return render(request,'buy_stock.html', { 'stocks': stocks })
+
 def ranking(request):
     global updateTime,val
     if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
