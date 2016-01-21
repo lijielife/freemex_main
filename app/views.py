@@ -93,6 +93,43 @@ def buyStock(request):
     stocks = models.Stock.objects.all()
     return render(request,'buy_stock.html', { 'stocks': stocks })
 
+@login_required
+def sellStock(request):
+    global updateTime,val
+    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+        updateTime=datetime.datetime.now()
+        updatePrices()
+        val = True
+    if request.method == 'POST':
+        print request.POST
+        requestedStockCode = request.POST['stock_code']
+        requestedStockCount = float(request.POST['number_of_stocks'])
+        playerObj = models.Player.objects.get(user_id=request.user.pk)
+        stockList = models.Stock.objects.filter(code = str(requestedStockCode))
+        if(stockList.count()):
+            stockObj = stockList[0]
+            p2sList = models.PlayerToStock.objects.filter(player = playerObj, stock = stockObj)
+            if(p2sList.count()):
+                p2s = p2sList[0]
+                if(p2s.quantity >= requestedStockCount):
+                    #DEDUCT STOCK QUANTITY
+                    p2s.quantity = p2s.quantity - requestedStockCount
+                    #INCREASE PLAYER CASH
+                    p2s.player.cash = (p2s.player.cash + (requestedStockCount * p2s.stock.price))
+                    p2s.save()
+                    p2s.player.save()
+                    print "SOLD"
+                    messages.success(request, 'Stock sold successfully.')
+                else:
+                    messages.error(request, 'You dont have that much stock to sell')
+            else:
+                messages.error(request, 'You have not bought this stock')
+        else:
+            messages.error(request, 'Something went wrong')
+
+    stocks = models.PlayerToStock.objects.filter(quantity__gt = 0)
+    return render(request,'sell_stock.html', { 'stocks': stocks })
+
 def ranking(request):
     global updateTime,val
     if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
