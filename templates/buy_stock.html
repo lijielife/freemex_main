@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block body %}
+
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form action="." method="post">{% csrf_token %}
+<select name="stock_code">
+	{% for i in stocks %}
+	<option value="{{ i.code }}">{{ i.name }} : {{ i.price }}</option>	
+	{% endfor %}
+	Number of Stocks: <input type="text" name="number_of_stocks">
+</select>
+<input type="submit" value="Submit">
+</form>
+{% endblock %}
