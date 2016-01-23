@@ -184,7 +184,6 @@ def ranking(request):
                 p.value_in_stocks += j.stock.price*j.quantity
             p.save()
     players= list(players)
-    print(players)
     players.sort(key=lambda x: x.cash + x.value_in_stocks, reverse = True)
     return render(request,'rankings.html',{'players':players})
 
