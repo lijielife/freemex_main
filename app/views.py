@@ -164,8 +164,8 @@ def sellStock(request):
                 messages.error(request, 'You have not bought this stock')
         else:
             messages.error(request, 'Something went wrong')
-
-    stocks = models.PlayerToStock.objects.filter(quantity__gt = 0)
+    playerObj = models.Player.objects.get(user_id=request.user.pk)
+    stocks = models.PlayerToStock.objects.filter(player = playerObj, quantity__gt = 0)
     return render(request,'sell_stock.html', { 'stocks': stocks })
 
 def ranking(request):
