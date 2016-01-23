@@ -100,7 +100,107 @@
     },
     "model": "app.stock",
     "pk": 10
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "MSFT",
+        "name": "Microsoft Corporation"
+    },
+    "model": "app.stock",
+    "pk": 11
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "AMZN",
+        "name": "Amazon.com Inc."
+    },
+    "model": "app.stock",
+    "pk": 12
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "INTC",
+        "name": "Intel Corporation"
+    },
+    "model": "app.stock",
+    "pk": 13
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "CSCO",
+        "name": "Cisco Systems, Inc."
+    },
+    "model": "app.stock",
+    "pk": 14
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "EBAY",
+        "name": "eBay Inc."
+    },
+    "model": "app.stock",
+    "pk": 15
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "TXN",
+        "name": "Texas Instruments Inc."
+    },
+    "model": "app.stock",
+    "pk": 16
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "TSLA",
+        "name": "Tesla Motors, Inc."
+    },
+    "model": "app.stock",
+    "pk": 17
+},
+
+{
+    "fields": {
+        "price": 0,
+        "code": "NFLX",
+        "name": "Netflix, Inc."
+    },
+    "model": "app.stock",
+    "pk": 18
+},
+
+
+{
+    "fields": {
+        "price": 0,
+        "code": "NVDA",
+        "name": "NVIDIA Corporation"
+    },
+    "model": "app.stock",
+    "pk": 19
+},
+{
+    "fields": {
+        "price": 0,
+        "code": "EA",
+        "name": "Electronic Arts Inc."
+    },
+    "model": "app.stock",
+    "pk": 20
 }
-
-
 ]

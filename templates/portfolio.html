@@ -44,6 +44,8 @@
 			<h1>{{ player.name }}</h1>{{ player.email }}
 			<h4>Total Cash: {{ player.cash|floatformat:2 }}</h4>
 			<h4>Value in stocks: {{ player.value_in_stocks|floatformat:2 }}</h4>
+			<hr/>
+			<h4>Total Asset: {{ player.value_in_stocks|add:player.cash|floatformat:2 }}</h4>
 			
 
 			<table class="table table-striped table-bordered table-hover" id="portfolioTable">
