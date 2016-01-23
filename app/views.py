@@ -68,7 +68,7 @@ def buyStock(request):
         print(request.POST)
         try:
             requestedStockCode = request.POST['stock_code']
-            requestedStockCount = float(request.POST['number_of_stocks'])
+            requestedStockCount = int(request.POST['number_of_stocks'])
         except:
             messages.error(request, 'Please select stock and enter quantity')
             stocks = models.Stock.objects.all()
@@ -127,7 +127,7 @@ def sellStock(request):
         print(request.POST)
         try:
             requestedStockCode = request.POST['stock_code']
-            requestedStockCount = float(request.POST['number_of_stocks'])
+            requestedStockCount = int(request.POST['number_of_stocks'])
         except:
             messages.error(request, 'Please select stock and enter quantity')
             stocks = models.PlayerToStock.objects.filter(quantity__gt = 0)
