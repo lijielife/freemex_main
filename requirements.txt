@@ -1,8 +1,11 @@
+defusedxml==0.4.1
 Django==1.8.3
+googlefinance==0.7
 oauthlib==1.0.3
 PyJWT==1.4.0
 python-openid==2.2.5
 python-social-auth==0.2.13
+python3-openid==3.0.9
 requests==2.9.1
 requests-oauthlib==0.6.0
 six==1.10.0
