@@ -39,6 +39,7 @@ def portfolio(request):
         val = False
         print("here")
         playerObj = models.Player.objects.get(user_id=request.user.pk)
+        playerObj.value_in_stocks = 0
         for j in models.PlayerToStock.objects.filter(player=playerObj):
             playerObj.value_in_stocks += j.stock.price*j.quantity
             playerObj.save()
