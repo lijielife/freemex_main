@@ -145,9 +145,9 @@ def sellStock(request):
                     p2s.quantity = p2s.quantity - requestedStockCount
                     
                     #INCREASE PLAYER CASH
-                    p2s.player.cash = (p2s.player.cash + (requestedStockCount * p2s.stock.price))
+                    playerObj.cash = (playerObj.cash + (requestedStockCount * p2s.stock.price))
                     p2s.save()
-                    p2s.player.save()
+                    playerObj.save()
                     print("SOLD")
                     
                     #change player value in stock
