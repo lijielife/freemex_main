@@ -183,7 +183,9 @@ def ranking(request):
             for j in models.PlayerToStock.objects.filter(player=p):
                 p.value_in_stocks += j.stock.price*j.quantity
             p.save()
-    players.sort(lambda x: x.cash + x.value_in_stocks, reverse = True)
+    players= list(players)
+    print(players)
+    players.sort(key=lambda x: x.cash + x.value_in_stocks, reverse = True)
     return render(request,'rankings.html',{'players':players})
 
 @login_required
