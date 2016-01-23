@@ -14,7 +14,7 @@ updateTime = datetime.datetime.now()
 val = False
 
 def updatePrices():
-    print "======= updating prices =========="
+    print("======= updating prices ==========")
     for i in models.Stock.objects.all():
         i.price=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
         i.save()
@@ -30,8 +30,22 @@ def index(request):
 
 @login_required
 def portfolio(request):
+    global updateTime,val
+    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+        updateTime=datetime.datetime.now()
+        updatePrices()
+        val = True
+    if val :
+        val = False
+        print("here")
+        playerObj = models.Player.objects.get(user_id=request.user.pk)
+        playerObj.value_in_stocks = 0
+        for j in models.PlayerToStock.objects.filter(player=playerObj):
+            playerObj.value_in_stocks += j.stock.price*j.quantity
+            playerObj.save()
     player = models.Player.objects.get(user_id=request.user.pk)
-    return render(request, 'portfolio.html' , {'player': player })
+    p2sList = models.PlayerToStock.objects.filter(player = player, quantity__gt = 0)
+    return render(request, 'portfolio.html' , {'player': player, 'p2sList': p2sList})
 
 @login_required
 def marketwatch(request):
@@ -51,26 +65,31 @@ def buyStock(request):
         updatePrices()
         val = True
     if request.method == 'POST':
-        print request.POST
-        requestedStockCode = request.POST['stock_code']
-        requestedStockCount = float(request.POST['number_of_stocks'])
+        print(request.POST)
+        try:
+            requestedStockCode = request.POST['stock_code']
+            requestedStockCount = float(request.POST['number_of_stocks'])
+        except:
+            messages.error(request, 'Please select stock and enter quantity')
+            stocks = models.Stock.objects.all()
+            return render(request,'buy_stock.html', { 'stocks': stocks })
         stockList = models.Stock.objects.filter(code = str(requestedStockCode))
         playerObj = models.Player.objects.get(user_id=request.user.pk)
         availableMoney = float(playerObj.cash)
         if(stockList.count()):
             stockObj = stockList[0]
             stockPrice = stockObj.price
-            print stockPrice
-            print requestedStockCount
+            print(stockPrice)
+            print(requestedStockCount)
             if(availableMoney > (stockPrice * requestedStockCount)):
-                print "BOUGHT"
+                print("BOUGHT")
                 #update player to stock table
                 p2sList = models.PlayerToStock.objects.filter(player = playerObj, stock = stockObj)
                 if(p2sList.count()):
                     p2s = p2sList[0]
                     p2s.quantity = p2s.quantity + requestedStockCount
                     p2s.save()
-                    print "UPDATED"
+                    print("UPDATED")
                     messages.success(request, 'Stock purchased successfully.')
                 else:
                     p2s = models.PlayerToStock()
@@ -78,13 +97,17 @@ def buyStock(request):
                     p2s.stock = stockObj
                     p2s.quantity = requestedStockCount
                     p2s.save()
-                    print "UPDATED"
+                    print("UPDATED")
                     messages.success(request, 'Stock purchased successfully.')
                 #deduct player money
                 newAvailableMoney = availableMoney - (stockPrice * requestedStockCount)
                 playerObj.cash = newAvailableMoney
+                print("CASH DEDUCTED")
+                #change player value in stock
+                playerObj.value_in_stocks=0
+                for j in models.PlayerToStock.objects.filter(player = playerObj):
+                    playerObj.value_in_stocks += j.stock.price*j.quantity
                 playerObj.save()
-                print "CASH DEDUCTED"
             else:
                 messages.error(request, 'Not enough cash to buy stock')
         else:
@@ -101,9 +124,15 @@ def sellStock(request):
         updatePrices()
         val = True
     if request.method == 'POST':
-        print request.POST
-        requestedStockCode = request.POST['stock_code']
-        requestedStockCount = float(request.POST['number_of_stocks'])
+        print(request.POST)
+        try:
+            requestedStockCode = request.POST['stock_code']
+            requestedStockCount = float(request.POST['number_of_stocks'])
+        except:
+            messages.error(request, 'Please select stock and enter quantity')
+            stocks = models.PlayerToStock.objects.filter(quantity__gt = 0)
+            return render(request,'sell_stock.html', { 'stocks': stocks })
+
         playerObj = models.Player.objects.get(user_id=request.user.pk)
         stockList = models.Stock.objects.filter(code = str(requestedStockCode))
         if(stockList.count()):
@@ -114,11 +143,20 @@ def sellStock(request):
                 if(p2s.quantity >= requestedStockCount):
                     #DEDUCT STOCK QUANTITY
                     p2s.quantity = p2s.quantity - requestedStockCount
+                    
                     #INCREASE PLAYER CASH
                     p2s.player.cash = (p2s.player.cash + (requestedStockCount * p2s.stock.price))
                     p2s.save()
                     p2s.player.save()
-                    print "SOLD"
+                    print("SOLD")
+                    
+                    #change player value in stock
+                    playerObj.value_in_stocks=0
+                    for j in models.PlayerToStock.objects.filter(player = playerObj):
+                        playerObj.value_in_stocks += j.stock.price*j.quantity
+                    playerObj.save()
+                    
+                    #set success message
                     messages.success(request, 'Stock sold successfully.')
                 else:
                     messages.error(request, 'You dont have that much stock to sell')
@@ -139,11 +177,11 @@ def ranking(request):
     players = models.Player.objects.all()
     if val :
         val = False
-        print ("here")
+        print("here")
         for p in players:
             p.value_in_stocks=0
             for j in models.PlayerToStock.objects.filter(player=p):
-                p.value_in_stocks += j.stock.price
+                p.value_in_stocks += j.stock.price*j.quantity
             p.save()
     return render(request,'rankings.html',{'players':players})
 

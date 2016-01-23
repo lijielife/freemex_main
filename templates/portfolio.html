@@ -1,14 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
- {{ player.name }}
- {{ player.cash }}
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}Portfolio |{% endblock %}
+{% block titlemeta %}Portfolio |{% endblock %}
+{% block body %}
 
- {{ player.value_in_stocks }}
- {{ player.email }}
-</body>
-</html>
+<div id="background-image"></div>
+<div id="background-texture"></div>
+
+
+
+
+<!-- NAV BAR START ==================================================== -->
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="/" class="pull-left"><img style="max-width:100px; margin: 10px;" src="{% static "images/logo.png" %}"></a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/marketwatch">Marketwatch</a></li>
+				<li><a href="/buystock">Buy Stocks</a></li>
+				<li><a href="/sellstock">Sell Stocks</a></li>
+				<li><a href="/ranking">Ranking</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR END ==================================================== -->
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+			<h1>{{ player.name }}</h1>{{ player.email }}
+			<h4>Total Cash: {{ player.cash|floatformat:2 }}</h4>
+			<h4>Value in stocks: {{ player.value_in_stocks|floatformat:2 }}</h4>
+			<hr/>
+			<h4>Total Asset: {{ player.value_in_stocks|add:player.cash|floatformat:2 }}</h4>
+			
+
+			<table class="table table-striped table-bordered table-hover" id="portfolioTable">
+				<tr><th class="stocknamecol">Stock Name</th><th>Stock Code</th><th>Stock Quantity</th><th>Current Stock Price</th></tr>
+				{% for i in p2sList %}
+				<tr>
+					<td class="stocknamecol">{{ i.stock.name }}</td>
+					<td class="stockcodecol">{{ i.stock }}</td>
+					<td class="stockqtycol">{{ i.quantity }}</td>
+					<td class="stockpricecol" >{{ i.stock.price }}</td>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}

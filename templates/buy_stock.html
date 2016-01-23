@@ -1,23 +1,73 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% block title %}Buy Stocks |{% endblock %}
+{% block titlemeta %}Buy Stocks |{% endblock %}
 {% block body %}
 
+<div id="background-image"></div>
+<div id="background-texture"></div>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 
-<form action="." method="post">{% csrf_token %}
-<select name="stock_code">
-	{% for i in stocks %}
-	<option value="{{ i.code }}">{{ i.name }} : {{ i.price }}</option>	
-	{% endfor %}
-	Number of Stocks: <input type="text" name="number_of_stocks">
-</select>
-<input type="submit" value="Submit">
-</form>
+
+
+<!-- NAV BAR START ==================================================== -->
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a href="/" class="pull-left"><img style="max-width:100px; margin: 10px;" src="{% static "images/logo.png" %}"></a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/marketwatch">Marketwatch</a></li>
+				<li><a href="/portfolio">Portfolio</a></li>
+				<li><a href="/sellstock">Sell Stocks</a></li>
+				<li><a href="/ranking">Rankings</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+<!-- NAV BAR END ==================================================== -->
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+			<h1>Buy Stocks</h1>
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+			<form action="." method="post" id="buyStockForm">{% csrf_token %}
+				<table class="table table-striped table-bordered table-hover" id="buystockTable">
+					<tr><th>Select</th><th class="stocknamecol">Stock Name</th><th>Stock Code</th><th>Current Stock Price</th></tr>
+					{% for i in stocks %}
+					<tr>
+						<td><input type="radio" name="stock_code" value="{{ i.code }}"></td>
+						<td class="stocknamecol">{{ i.name }}</td>
+						<td class="stockcodecol">{{ i.code }}</td>
+						<td class="stockpricecol" >{{ i.price }}</td>
+					</tr>	
+					{% endfor %}
+				</table>
+				<dev>
+					<h4>Number of stocks to buy:</h4>
+					<input type="text" name="number_of_stocks">
+				</dev>
+				<input class="btn btn-primary" type="submit" value="Buy Stock">
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 #background-texture {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -9,7 +9,7 @@
     opacity: 0.3;
 }
 #background-image {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
@@ -22,13 +22,19 @@
 }
 
 #mainHeader {
-    color: #3a3a3a;
-    font-size: 9vw;
-    padding-top: 1em;
-    text-align: center;
-    text-shadow: 0 0 7px #6a6a6a;
+    padding: 4em;
+    padding-top: 6em;
+    margin: 0 auto;
+    -webkit-filter: drop-shadow(0px 0px 4px #5a5a5a);
+    filter: drop-shadow(0px 0px 4px #5a5a5a);
+    -webkit-transition: all 1s; /* Safari */
+    transition: all 1s;
 }
 
+#mainHeader:hover {
+    -webkit-filter: drop-shadow(0px 0px 7px #fff);
+    filter: drop-shadow(0px 0px 7px #fff);
+}
 
 .loginbutton img{
     width: 2.2em;
@@ -56,6 +62,8 @@ a:hover{
     height: 3em;
     border: none;
     width: 15em;
+    -webkit-transition: all 1s; /* Safari */
+    transition: all .5s;
     
 }
 
@@ -64,30 +72,33 @@ a:hover{
 
 }
 
+#googleLogin:hover {
+    box-shadow: 0 0 5px #da4835;
+
+}
+
 #fbLogin {
     background: #39569b;
 }
+#fbLogin:hover {
+    box-shadow: 0 0 5px #39569b;
+}
 
-
-
+#buyStockForm {
+    margin-bottom: 5em;
+}
 
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 320px) {
-#mainHeader {
-    font-size: 20vw;
-    }    
+   
 }
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
-#mainHeader {
-    font-size: 20vw;
-    }    
+   
 }
 
 /* Small Devices, Tablets */
 @media only screen and (max-width : 768px) {
-#mainHeader {
-    font-size: 20vw;
-    }    
+   
 }
