@@ -84,6 +84,21 @@ a:hover{
     box-shadow: 0 0 5px #39569b;
 }
 
+.success {
+    color: #FFF;
+    padding: 0.3em;
+    text-align: center;
+    font-size: 1.2em;
+    background: #1ec438 none repeat scroll 0px 0px;
+}
+.error {
+    color: #FFF;
+    padding: 0.3em;
+    text-align: center;
+    font-size: 1.2em;
+    background: #C55551 none repeat scroll 0px 0px;
+}
+
 #buyStockForm {
     margin-bottom: 5em;
 }
