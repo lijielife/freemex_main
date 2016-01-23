@@ -88,14 +88,167 @@ a:hover{
     margin-bottom: 5em;
 }
 
+.withJS {
+    display: none;
+}
+
+#lightboxbg {
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+#lightbox{
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -300px;
+    width: 600px;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}
+
+.lightboxelement{
+    display: none;
+}
+
+#lightboxStockcode2{
+    display: none;
+}
+
+#lightboxInput{
+    padding: .2em;
+}
+
+#crossLightbox{
+    float: right;
+}
+#crossLightbox:hover{
+    cursor: pointer;
+}
+
+
+
+
+
+
+#sell-lightboxbg {
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+#sell-lightbox{
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -300px;
+    width: 600px;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}
+
+.sell-lightboxelement{
+    display: none;
+}
+
+#sell-lightboxStockcode2{
+    display: none;
+}
+
+#sell-lightboxInput{
+    padding: .2em;
+}
+
+#sell-crossLightbox{
+    float: right;
+}
+#sell-crossLightbox:hover{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 320px) {
-   
+#lightbox{
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -300px;
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}
+#sell-lightbox{
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin: -200px 0 0 -300px;
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}  
 }
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
-   
+#lightbox{
+    background: #fff;
+    position: fixed;
+    top: 1em;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}
+
+#sell-lightbox{
+    background: #fff;
+    position: fixed;
+    top: 1em;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    z-index: 1002;
+    overflow: auto;
+    box-shadow: 0 0px 24px rgb(0, 0, 0);
+}
+
 }
 
 /* Small Devices, Tablets */
