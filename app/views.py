@@ -35,10 +35,16 @@ def portfolio(request):
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
+    if val :
+        val = False
+        print("here")
+        playerObj = models.Player.objects.get(user_id=request.user.pk)
+        for j in models.PlayerToStock.objects.filter(player=playerObj):
+            playerObj.value_in_stocks += j.stock.price*j.quantity
+            playerObj.save()
     player = models.Player.objects.get(user_id=request.user.pk)
     p2sList = models.PlayerToStock.objects.filter(player = player, quantity__gt = 0)
-    totalAsset = sum((s.stock.price * s.quantity) for s in p2sList)
-    return render(request, 'portfolio.html' , {'player': player, 'p2sList': p2sList, 'asset':totalAsset })
+    return render(request, 'portfolio.html' , {'player': player, 'p2sList': p2sList})
 
 @login_required
 def marketwatch(request):
