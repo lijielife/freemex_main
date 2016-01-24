@@ -17,6 +17,7 @@ $(function() {
 	    	var box = $('#sell-lightbox');
 	    	$('#sell-lightboxStockname').html(stockname);
 	    	$('#sell-lightboxStockcode').html(stockcode);
+            $('#sell-lightboxStockQty').html(qty);
 	    	$('#sell-lightboxStockcode2').val(stockcode);
     		var boxbg = $('#sell-lightboxbg').fadeIn();
     		box.fadeIn();

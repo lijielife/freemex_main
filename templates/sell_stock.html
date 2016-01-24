@@ -60,7 +60,7 @@
 						<td class="stockcodecol">{{ i.stock.code }}</td>
 						<td class="stockpricecol" >{{ i.stock.price }}</td>
 						<td class="stockpricecol" >{{ i.quantity }}</td>
-						<td class="stocksellbutton JS" ><button class="btn btn-primary sellJsButton" data-stockName="{{ i.stocl.name }}" data-stockCode="{{ i.stock.code }}" data-stockQty="{{ i.quantity }}">Sell</button></td>
+						<td class="stocksellbutton JS" ><button class="btn btn-primary sellJsButton" data-stockName="{{ i.stock.name }}" data-stockCode="{{ i.stock.code }}" data-stockQty="{{ i.quantity }}">Sell</button></td>
 					</tr>
 					</tr>	
 					{% endfor %}
@@ -83,8 +83,10 @@
 	<span id="sell-crossLightbox" class="glyphicon glyphicon-remove"></span>
 	<form action="." method="post" id="sellStockForm">{% csrf_token %}
 		<h2 id="sell-lightboxStockname">Hello</h2>
-		<h3 id="sell-lightboxStockcode">Hello</h3>
+		<h4>CODE: <span id="sell-lightboxStockcode">Hello</span></h4>
+		<p>You currently have <span id="sell-lightboxStockQty">Hello</span> shares.</span>
 		<input id="sell-lightboxStockcode2" type="text" name="stock_code" value="testval">
+		<hr/>
 		<h4>Number of stocks to sell:</h4>
 		<input id="sell-lightboxInput" type="text" name="number_of_stocks" placeholder="number of stocks to sell">
 		<input class="btn btn-primary" type="submit" value="Sell Stock">
