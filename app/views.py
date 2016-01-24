@@ -68,7 +68,7 @@ def buyStock(request):
         print(request.POST)
         try:
             requestedStockCode = request.POST['stock_code']
-            requestedStockCount = float(request.POST['number_of_stocks'])
+            requestedStockCount = int(request.POST['number_of_stocks'])
         except:
             messages.error(request, 'Please select stock and enter quantity')
             stocks = models.Stock.objects.all()
@@ -127,7 +127,7 @@ def sellStock(request):
         print(request.POST)
         try:
             requestedStockCode = request.POST['stock_code']
-            requestedStockCount = float(request.POST['number_of_stocks'])
+            requestedStockCount = int(request.POST['number_of_stocks'])
         except:
             messages.error(request, 'Please select stock and enter quantity')
             stocks = models.PlayerToStock.objects.filter(quantity__gt = 0)
@@ -145,9 +145,9 @@ def sellStock(request):
                     p2s.quantity = p2s.quantity - requestedStockCount
                     
                     #INCREASE PLAYER CASH
-                    p2s.player.cash = (p2s.player.cash + (requestedStockCount * p2s.stock.price))
+                    playerObj.cash = (playerObj.cash + (requestedStockCount * p2s.stock.price))
                     p2s.save()
-                    p2s.player.save()
+                    playerObj.save()
                     print("SOLD")
                     
                     #change player value in stock
@@ -183,8 +183,8 @@ def ranking(request):
             for j in models.PlayerToStock.objects.filter(player=p):
                 p.value_in_stocks += j.stock.price*j.quantity
             p.save()
-    players = list(players)
-    players.sort(lambda x: x.cash + x.value_in_stocks, reverse = True)
+    players= list(players)
+    players.sort(key=lambda x: x.cash + x.value_in_stocks, reverse = True)
     return render(request,'rankings.html',{'players':players})
 
 @login_required

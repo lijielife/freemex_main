@@ -31,6 +31,7 @@
 				<li><a href="/portfolio">Portfolio</a></li>
 				<li><a href="/sellstock">Sell Stocks</a></li>
 				<li><a href="/ranking">Rankings</a></li>
+				<li><a href="/logout?next=/">Logout</a></li>
 			</ul>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
@@ -43,31 +44,48 @@
 		<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 			<h1>Buy Stocks</h1>
 			{% if messages %}
-			<ul class="messages">
+			<div class="messages">
 				{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
 				{% endfor %}
-			</ul>
+			</div>
 			{% endif %}
 			<form action="." method="post" id="buyStockForm">{% csrf_token %}
 				<table class="table table-striped table-bordered table-hover" id="buystockTable">
-					<tr><th>Select</th><th class="stocknamecol">Stock Name</th><th>Stock Code</th><th>Current Stock Price</th></tr>
+					<tr><th class="withoutJS">Select</th><th class="stocknamecol">Stock Name</th><th>Stock Code</th><th>Current Stock Price</th><th class="withJS">Buy</th></tr>
 					{% for i in stocks %}
 					<tr>
-						<td><input type="radio" name="stock_code" value="{{ i.code }}"></td>
+						<td class="withoutJS"><input type="radio" name="stock_code" value="{{ i.code }}"></td>
 						<td class="stocknamecol">{{ i.name }}</td>
 						<td class="stockcodecol">{{ i.code }}</td>
 						<td class="stockpricecol" >{{ i.price }}</td>
+						<td class="stockbuybutton withJS" ><button class="btn btn-primary buyJsButton" data-stockName="{{ i.name }}" data-stockCode="{{ i.code }}">Buy</button></td>
 					</tr>	
 					{% endfor %}
 				</table>
-				<dev>
-					<h4>Number of stocks to buy:</h4>
+				<div class="withoutJS">
+					<h4 >Number of stocks to buy:</h4>
 					<input type="text" name="number_of_stocks">
-				</dev>
-				<input class="btn btn-primary" type="submit" value="Buy Stock">
+				</div>
+				<input class="btn btn-primary withoutJS" type="submit" value="Buy Stock">
 			</form>
 		</div>
 	</div>
 </div>
+
+
+<!-- LIGHTBOX ============== -->
+<div id="lightboxbg" class="lightboxelement"></div>
+<div id="lightbox" class="lightboxelement">
+	<span id="crossLightbox" class="glyphicon glyphicon-remove"></span>
+	<form action="." method="post" id="buyStockForm">{% csrf_token %}
+		<h2 id="lightboxStockname">Hello</h2>
+		<h3 id="lightboxStockcode">Hello</h3>
+		<input id="lightboxStockcode2" type="text" name="stock_code" value="testval">
+		<h4>Number of stocks to buy:</h4>
+		<input id="lightboxInput" type="text" name="number_of_stocks" placeholder="number of stocks to buy">
+		<input class="btn btn-primary" type="submit" value="Buy Stock">
+	</form>
+</div>
+
 {% endblock %}
