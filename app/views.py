@@ -76,7 +76,7 @@ def buyStock(request):
         stockList = models.Stock.objects.filter(code = str(requestedStockCode))
         playerObj = models.Player.objects.get(user_id=request.user.pk)
         availableMoney = float(playerObj.cash)
-        if(stockList.count()):
+        if(stockList.count() and (requestedStockCount > 0)):
             stockObj = stockList[0]
             stockPrice = stockObj.price
             print(stockPrice)
@@ -135,7 +135,7 @@ def sellStock(request):
 
         playerObj = models.Player.objects.get(user_id=request.user.pk)
         stockList = models.Stock.objects.filter(code = str(requestedStockCode))
-        if(stockList.count()):
+        if(stockList.count() and (requestedStockCount > 0)):
             stockObj = stockList[0]
             p2sList = models.PlayerToStock.objects.filter(player = playerObj, stock = stockObj)
             if(p2sList.count()):
