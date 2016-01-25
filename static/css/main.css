@@ -200,7 +200,17 @@ a:hover{
 
 
 
+#stockchart {
+    height: 70vh;
+    margin-top: 50px;
+}
 
+.buyLinkDetails {
+    float: right;
+}
+.backtomw{
+    float: left;
+}
 
 
 

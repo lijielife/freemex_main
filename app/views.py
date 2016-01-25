@@ -57,6 +57,10 @@ def marketwatch(request):
     stocks = models.Stock.objects.all()
     return render(request,'marketwatch.html', { 'stocks': stocks })
 
+def stockDetails(request):
+    stockCode = request.GET['code']
+    return render(request,'stockdetails.html', { 'code': stockCode })
+
 @login_required
 def buyStock(request):
     global updateTime,val
