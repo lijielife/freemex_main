@@ -212,6 +212,14 @@ a:hover{
     float: left;
 }
 
+.glyphicon-triangle-bottom{
+    color: #ff4d4d;
+}
+
+.glyphicon-triangle-top{
+    color: #00e64d;
+}
+
 
 
 /* Custom, iPhone Retina */ 

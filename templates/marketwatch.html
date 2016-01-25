@@ -48,7 +48,8 @@
 				<tr>
 					<td class="stocknamecol">{{ i.name }}</td>
 					<td class="stockcodecol">{{ i.code }}</td>
-					<td class="stockpricecol" >{{ i.price }}</td>
+					<td class="stockpricecol" >{{ i.price }} {% if i.diff > 0 %}<span class="glyphicon glyphicon-triangle-top"></span>{% endif %}
+					{% if i.diff < 0 %}<span class="glyphicon glyphicon-triangle-bottom"></span>{% endif %} ({{i.diff|floatformat:2}})</td>
 					<td class="stockdetailscol" ><a href="/stockdetails?code={{ i.code }}"><button class="btn btn-primary showChartButton">Details</button></a></td>
 				</tr>
 				{% endfor %}

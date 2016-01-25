@@ -8,6 +8,8 @@ from app import models
 
 import datetime
 from googlefinance import getQuotes
+TIMEDELTA = 5
+
 # Create your views here.
 
 updateTime = datetime.datetime.now()
@@ -16,8 +18,13 @@ val = False
 def updatePrices():
     print("======= updating prices ==========")
     for i in models.Stock.objects.all():
-        i.price=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
-        i.save()
+        try:
+            newprice=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
+            i.diff = newprice-i.price
+            i.price = newprice
+            i.save()
+        except:
+            print("NOT UPDATED")
 
 def index(request):
     global updateTime
@@ -31,7 +38,7 @@ def index(request):
 @login_required
 def portfolio(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -50,7 +57,7 @@ def portfolio(request):
 @login_required
 def marketwatch(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -64,7 +71,7 @@ def stockDetails(request):
 @login_required
 def buyStock(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -126,7 +133,7 @@ def buyStock(request):
 @login_required
 def sellStock(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -177,7 +184,7 @@ def sellStock(request):
 
 def ranking(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
