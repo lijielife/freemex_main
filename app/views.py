@@ -90,7 +90,8 @@ def buyStock(request):
                     p2s.quantity = p2s.quantity + requestedStockCount
                     p2s.save()
                     print("UPDATED")
-                    messages.success(request, 'Stock purchased successfully.')
+                    msg = 'Stock purchased successfully. \n Cash Deducted: ' + str(stockPrice * requestedStockCount)
+                    messages.success(request, msg)
                 else:
                     p2s = models.PlayerToStock()
                     p2s.player = playerObj
@@ -98,7 +99,8 @@ def buyStock(request):
                     p2s.quantity = requestedStockCount
                     p2s.save()
                     print("UPDATED")
-                    messages.success(request, 'Stock purchased successfully.')
+                    msg = 'Stock purchased successfully. \n Cash Deducted: ' + str(stockPrice * requestedStockCount)
+                    messages.success(request, msg)
                 #deduct player money
                 newAvailableMoney = availableMoney - (stockPrice * requestedStockCount)
                 playerObj.cash = newAvailableMoney
@@ -114,7 +116,8 @@ def buyStock(request):
             messages.error(request, 'Something went wrong')
 
     stocks = models.Stock.objects.all()
-    return render(request,'buy_stock.html', { 'stocks': stocks })
+    playerObj = models.Player.objects.get(user_id=request.user.pk)
+    return render(request,'buy_stock.html', { 'stocks': stocks, 'player': playerObj })
 
 @login_required
 def sellStock(request):
