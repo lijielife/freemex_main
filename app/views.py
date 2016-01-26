@@ -8,6 +8,8 @@ from app import models
 
 import datetime
 from googlefinance import getQuotes
+TIMEDELTA = 5
+
 # Create your views here.
 
 updateTime = datetime.datetime.now()
@@ -16,8 +18,13 @@ val = False
 def updatePrices():
     print("======= updating prices ==========")
     for i in models.Stock.objects.all():
-        i.price=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
-        i.save()
+        try:
+            newprice=float(getQuotes(str(i.code))[0]["LastTradePrice"].replace(',',''))
+            i.diff = newprice-i.price
+            i.price = newprice
+            i.save()
+        except:
+            print("NOT UPDATED")
 
 def index(request):
     global updateTime
@@ -31,7 +38,7 @@ def index(request):
 @login_required
 def portfolio(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -50,17 +57,21 @@ def portfolio(request):
 @login_required
 def marketwatch(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
     stocks = models.Stock.objects.all()
     return render(request,'marketwatch.html', { 'stocks': stocks })
 
+def stockDetails(request):
+    stockCode = request.GET['code']
+    return render(request,'stockdetails.html', { 'code': stockCode })
+
 @login_required
 def buyStock(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -90,7 +101,8 @@ def buyStock(request):
                     p2s.quantity = p2s.quantity + requestedStockCount
                     p2s.save()
                     print("UPDATED")
-                    messages.success(request, 'Stock purchased successfully.')
+                    msg = 'Stock purchased successfully. \n Cash Deducted: ' + str(stockPrice * requestedStockCount)
+                    messages.success(request, msg)
                 else:
                     p2s = models.PlayerToStock()
                     p2s.player = playerObj
@@ -98,7 +110,8 @@ def buyStock(request):
                     p2s.quantity = requestedStockCount
                     p2s.save()
                     print("UPDATED")
-                    messages.success(request, 'Stock purchased successfully.')
+                    msg = 'Stock purchased successfully. \n Cash Deducted: ' + str(stockPrice * requestedStockCount)
+                    messages.success(request, msg)
                 #deduct player money
                 newAvailableMoney = availableMoney - (stockPrice * requestedStockCount)
                 playerObj.cash = newAvailableMoney
@@ -114,12 +127,13 @@ def buyStock(request):
             messages.error(request, 'Something went wrong')
 
     stocks = models.Stock.objects.all()
-    return render(request,'buy_stock.html', { 'stocks': stocks })
+    playerObj = models.Player.objects.get(user_id=request.user.pk)
+    return render(request,'buy_stock.html', { 'stocks': stocks, 'player': playerObj })
 
 @login_required
 def sellStock(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True
@@ -170,7 +184,7 @@ def sellStock(request):
 
 def ranking(request):
     global updateTime,val
-    if datetime.datetime.now()-datetime.timedelta(minutes=1)>=updateTime:
+    if datetime.datetime.now()-datetime.timedelta(minutes=TIMEDELTA)>=updateTime:
         updateTime=datetime.datetime.now()
         updatePrices()
         val = True

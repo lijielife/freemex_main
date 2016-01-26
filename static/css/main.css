@@ -200,6 +200,60 @@ a:hover{
 
 
 
+#stockchart {
+    height: 70vh;
+    margin-top: 50px;
+}
+
+.buyLinkDetails {
+    float: right;
+}
+.backtomw{
+    float: left;
+}
+
+.glyphicon-triangle-bottom{
+    color: #ff4d4d;
+}
+
+.glyphicon-triangle-top{
+    color: #00e64d;
+}
+
+#buyStockPrompt {
+    text-align: center;
+    background: rgba(255,255,255,.5);
+    padding: .2em;
+}
+
+
+#mainDescription{
+    background: rgba(255,255,255,.5);
+    padding: .2em;
+    font-size: 1.2em;
+    margin-top: 1em;
+}
+
+.shadowHr {
+    border: 0;
+    height: 2px;
+    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+    background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0)); 
+}
+
+#muktiPresents{
+    text-align: center;
+    opacity: .6;
+}
+
+
+
+
+
+
+
 
 
 
@@ -233,6 +287,7 @@ a:hover{
     box-shadow: 0 0px 24px rgb(0, 0, 0);
 }  
 }
+
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
