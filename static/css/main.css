@@ -220,7 +220,11 @@ a:hover{
     color: #00e64d;
 }
 
-
+#buyStockPrompt {
+    text-align: center;
+    background: rgba(255,255,255,.5);
+    padding: .2em;
+}
 
 /* Custom, iPhone Retina */ 
 @media only screen and (max-width : 320px) {
@@ -251,6 +255,7 @@ a:hover{
     box-shadow: 0 0px 24px rgb(0, 0, 0);
 }  
 }
+
 
 /* Extra Small Devices, Phones */ 
 @media only screen and (max-width : 480px) {
