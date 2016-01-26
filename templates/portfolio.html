@@ -57,7 +57,8 @@
 						<td class="stocknamecol">{{ i.stock.name }}</td>
 						<td class="stockcodecol">{{ i.stock }}</td>
 						<td class="stockqtycol">{{ i.quantity }}</td>
-						<td class="stockpricecol" >{{ i.stock.price }}</td>
+						<td class="stockpricecol" >{{ i.stock.price }}{% if i.stock.diff > 0 %}<span class="glyphicon glyphicon-triangle-top"></span>{% endif %}
+					{% if i.stock.diff < 0 %}<span class="glyphicon glyphicon-triangle-bottom"></span>{% endif %} ({{i.stock.diff|floatformat:2}})</td>
 					</tr>
 					{% endfor %}
 				{% else %}
